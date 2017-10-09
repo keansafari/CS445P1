@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  *
  * @author kean_jafari
@@ -14,21 +8,12 @@ import java.io.File;
 import java.io.FileReader;
 import org.lwjgl.LWJGLException;
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.util.glu.GLU.*;
-
-import java.io.IOException;
 import static java.lang.Math.PI;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
-import java .util.logging.FileHandler;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
-import org.lwjgl.opengl.GL11;
-
 
 
 public class Main {
@@ -51,10 +36,10 @@ public class Main {
         }
         
         // init OpenGL
-        GL11.glMatrixMode(GL11.GL_PROJECTION);
-        GL11.glLoadIdentity();
-        GL11.glOrtho(0, DISPLAY_WIDTH, 0, DISPLAY_HEIGHT, 1, -1);
-        GL11.glMatrixMode(GL11.GL_MODELVIEW);
+        glMatrixMode(GL_PROJECTION);
+        glLoadIdentity();
+        glOrtho(0, DISPLAY_WIDTH, 0, DISPLAY_HEIGHT, 1, -1);
+        glMatrixMode(GL_MODELVIEW);
         
         while (!Display.isCloseRequested() && !Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) {
             // render OpenGL here
@@ -62,10 +47,10 @@ public class Main {
            
             
             // Clear the screen and depth buffer
-            GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);  
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  
          
             // set the color of the quad (R,G,B,A)
-            GL11.glColor3f(0.5f,0.5f,1.0f);
+            glColor3f(0.5f,0.5f,1.0f);
 
             
             
@@ -73,9 +58,7 @@ public class Main {
                 File file = new File("src/coordinates.txt");
                 FileReader fr = new FileReader(file);
                 BufferedReader br = new BufferedReader(fr);
-                StringBuffer sb = new StringBuffer();
                 String line;
-
                 while ((line = br.readLine()) != null) {
                     char shapeType = line.charAt(0);
                     line = line.substring(2, line.length());
@@ -104,15 +87,8 @@ public class Main {
         Display.destroy();
     }
     
-    
-    
- 
-    
-    
-  
-
     public void drawLine(String[] tokens) {
-        glColor3f(0.7f,0.0f,0.0f);
+        glColor3f(1.0f,0.0f,0.0f);
         glBegin(GL_LINES);
             glVertex2f(Integer.parseInt(tokens[0]), Integer.parseInt(tokens[1]));
             glVertex2f(Integer.parseInt(tokens[2]), Integer.parseInt(tokens[3]));
@@ -121,13 +97,13 @@ public class Main {
     
     private void drawCircle(String[] tokens){
 	int i;
-	int lineAmount = 100; //# of triangles used to draw circle
+	int lineAmount = 100; 
 	float x = Float.parseFloat(tokens[0]);
         float y = Float.parseFloat(tokens[1]);
         float radius = Float.parseFloat(tokens[2]);
-	//GLfloat radius = 0.8f; //radius
+	
 	float twicePi = 2.0f * (float)PI;
-	glColor3f(0.0f,0.5f,0.0f);
+	glColor3f(0.0f,0.0f,1.0f);
 	glBegin(GL_LINE_LOOP);
 		for(i = 0; i <= lineAmount;i++) { 
                     glVertex2f(
@@ -150,29 +126,25 @@ public class Main {
         float y1;
 
         angle_increment = (float) Math.PI / 500;
-        GL11.glPushMatrix();
+        glPushMatrix();
 
-        GL11.glTranslatef(x+(width/2), y+(height/2), 0);
-        glColor3f(0.0f,0.0f,0.9f);
-        GL11.glBegin(GL11.GL_LINE_LOOP);
+        glTranslatef(x+(width/2), y+(height/2), 0);
+        glColor3f(0.0f, 1.0f,0.0f);
+        glBegin(GL_LINE_LOOP);
         for(theta = 0.0f; theta < Math.PI * 2; theta += angle_increment) {
             x1 = (float) (width/2 * Math.cos(theta));
             y1 = (float) (height/2 * Math.sin(theta));
 
-            GL11.glVertex2f(x1, y1);
+            glVertex2f(x1, y1);
         }
-        GL11.glEnd();
+        glEnd();
 
-        GL11.glPopMatrix();
+        glPopMatrix();
    }
     
     public static void main(String[] args) {
         Main main = new Main();
         main.start();
-        
-    }
-
-   
-    
+    } 
 }
 
